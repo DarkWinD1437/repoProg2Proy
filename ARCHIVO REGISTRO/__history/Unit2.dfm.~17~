@@ -2,14 +2,15 @@ object Form2: TForm2
   Left = 0
   Top = 0
   Caption = 'Form2'
-  ClientHeight = 378
-  ClientWidth = 606
+  ClientHeight = 641
+  ClientWidth = 848
   Color = clCream
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = MainMenu1
   OldCreateOrder = False
   OnClose = FormClose
   OnCreate = FormCreate
@@ -80,9 +81,22 @@ object Form2: TForm2
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label6: TLabel
+    Left = 280
+    Top = 336
+    Width = 99
+    Height = 19
+    Caption = 'Proyecto Dia 2'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+  end
   object Button1: TButton
-    Left = 152
-    Top = 280
+    Left = 22
+    Top = 288
     Width = 99
     Height = 25
     Caption = 'Guardar'
@@ -96,8 +110,8 @@ object Form2: TForm2
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 272
-    Top = 280
+    Left = 142
+    Top = 288
     Width = 91
     Height = 25
     Caption = 'Eliminar'
@@ -108,10 +122,11 @@ object Form2: TForm2
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 1
+    OnClick = Button2Click
   end
   object Button3: TButton
-    Left = 385
-    Top = 280
+    Left = 255
+    Top = 288
     Width = 90
     Height = 25
     Caption = 'Limpiar'
@@ -135,6 +150,7 @@ object Form2: TForm2
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 3
+    OnExit = Edit1Exit
     OnKeyPress = Edit1KeyPress
   end
   object Edit2: TEdit
@@ -205,5 +221,105 @@ object Form2: TForm2
     ParentFont = False
     TabOrder = 8
     OnKeyPress = Edit6KeyPress
+  end
+  object Button4: TButton
+    Left = 648
+    Top = 14
+    Width = 75
+    Height = 25
+    Caption = 'NavegarIdx'
+    TabOrder = 9
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 600
+    Top = 54
+    Width = 75
+    Height = 25
+    Caption = '<<'
+    Enabled = False
+    TabOrder = 10
+    OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 696
+    Top = 54
+    Width = 75
+    Height = 25
+    Caption = '>>'
+    Enabled = False
+    TabOrder = 11
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 648
+    Top = 85
+    Width = 75
+    Height = 25
+    Caption = 'Fin'
+    Enabled = False
+    TabOrder = 12
+    OnClick = Button7Click
+  end
+  object Button8: TButton
+    Left = 142
+    Top = 377
+    Width = 75
+    Height = 25
+    Caption = 'Actualizar'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 13
+    OnClick = Button8Click
+  end
+  object Memo1: TMemo
+    Left = 32
+    Top = 424
+    Width = 217
+    Height = 161
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 14
+  end
+  object Memo2: TMemo
+    Left = 392
+    Top = 424
+    Width = 217
+    Height = 161
+    Lines.Strings = (
+      'Memo2')
+    TabOrder = 15
+  end
+  object Button9: TButton
+    Left = 352
+    Top = 377
+    Width = 75
+    Height = 25
+    Caption = 'Expandir'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 16
+  end
+  object MainMenu1: TMainMenu
+    Left = 8
+    Top = 16
+    object Indices1: TMenuItem
+      Caption = 'Indices'
+      object porcodigo1: TMenuItem
+        Caption = 'por codigo'
+        OnClick = porcodigo1Click
+      end
+      object pornombre1: TMenuItem
+        Caption = 'por nombre'
+      end
+    end
   end
 end

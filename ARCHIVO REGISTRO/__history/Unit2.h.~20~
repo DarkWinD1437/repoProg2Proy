@@ -36,7 +36,6 @@ struct TFecha2{
 	byte mes;
 	Word año;
 };
-
 struct RegAlumno2{
 	char mark; //marca de borrador
 	Word cod;
@@ -44,7 +43,6 @@ struct RegAlumno2{
 	char dir[36];  //cadena de 35 caracteres
 	TFecha fecha;
 };
-
 struct RegIdxCod2{
 	Word cod;  //codigo del alumno
 	Cardinal pos; //posicion de archivos de daots de alumnos
@@ -105,7 +103,6 @@ private:	// User declarations
 	  ////////////////////////////////////////////////////////////////////
    fstream *pf2,*pIdx2;
    AnsiString nomArch2,nomIdxCod2;
-
 	  ////////////////////////////////////////////////////////////////////
 		 ////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////
