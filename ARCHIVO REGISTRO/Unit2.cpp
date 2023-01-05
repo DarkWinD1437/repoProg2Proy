@@ -164,21 +164,21 @@ regNuevo.fecha.dia=StrToInt(Edit4->Text);
 regNuevo.fecha.mes=StrToInt(Edit5->Text);
 regNuevo.fecha.año=StrToInt(Edit6->Text);
 pf=new fstream(nomArch.c_str(),ios::in|ios::out|ios::binary);
- if (pf->is_open()) {
-	 do{
-		pf->read((char *)&reg,sizeof(reg));
-	   hallado=(reg.cod==regNuevo.cod)&&(reg.mark!='*');
-	 }while(!hallado && !pf->eof());
-	 if (hallado) {
-		 pf->seekg(-sizeof(reg),ios::cur);
-	 }else{
-		 pf->seekg(0,ios::end);
+	 if (pf->is_open()) {
+			 do{
+					pf->read((char *)&reg,sizeof(reg));
+					hallado=(reg.cod==regNuevo.cod)&&(reg.mark!='*');
+			 }while(!hallado && !pf->eof());
+			 if (hallado) {
+					pf->seekg(-sizeof(reg),ios::cur);
+			 }else{
+					pf->seekg(0,ios::end);
+			 }
+		pf->write((char *)&regNuevo,sizeof(regNuevo));
+		Edit1->Text=""; Edit2->Text=""; Edit3->Text=""; Edit4->Text=""; Edit5->Text=""; Edit6->Text="" ;
+		Edit1->SetFocus();
+		pf->close();
 	 }
-	pf->write((char *)&regNuevo,sizeof(regNuevo));
-	Edit1->Text=""; Edit2->Text=""; Edit3->Text=""; Edit4->Text=""; Edit5->Text=""; Edit6->Text="" ;
-	Edit1->SetFocus();
-	pf->close();
- }
  pf->flush();
  delete pf;
 }
@@ -399,7 +399,9 @@ void __fastcall TForm2::Button8Click(TObject *Sender)
 
 	String s = "";
 	String o = "";
-    String n = "";
+	String n = "";
+	AnsiString cad = "";
+	AnsiString v = "";
 
     RegIdxCod reg;
 	RegAlumno regA;
@@ -416,6 +418,9 @@ void __fastcall TForm2::Button8Click(TObject *Sender)
 			 s = s + regA.cod + " | \n";
 			 o = o + regA.nom + " | \n";
 			 n = toUppercase(regA.nom);
+             strcpy(regA.nom,v.c_str());
+			 cad = toUppercase(regA.nom);    // Cambio a mayusculas
+			 strcpy(regA.nom,cad.c_str());  // cargar las mayusculas a archivo
 			 o = o + n + " | \n";
 			 s = s + n + " | \n";
 			 o = o + regA.dir + " | \n";
