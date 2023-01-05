@@ -8,10 +8,27 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm2 *Form2;
+
 //---------------------------------------------------------------------------
 __fastcall TForm2::TForm2(TComponent* Owner)
 	: TForm(Owner)
 {
+	openTxtDlg = new TOpenTextFileDialog(this);
+	saveTxtDlg = new TSaveTextFileDialog(this);
+
+	// Create a new string list that holds encoding information.
+	TStrings* encodings = new TStringList();
+
+	// Add some encodings to the list.
+	encodings->AddObject("ASCII", TEncoding::ASCII);
+	encodings->AddObject("UNICODE", TEncoding::Unicode);
+	encodings->AddObject("UTF8", TEncoding::UTF8);
+
+	openTxtDlg->Encodings->Assign(encodings);
+	saveTxtDlg->Encodings->Assign(encodings);
+
+	openTxtDlg->Filter = "Text files (*.txt)|*.TXT|XML files (*.xml)|*.XML|Any file (*.*)|*.*";
+	saveTxtDlg->Filter = "Text files (*.txt)|*.TXT|XML files (*.xml)|*.XML|Any file (*.*)|*.*";
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm2::FormCreate(TObject *Sender)
@@ -172,13 +189,11 @@ void __fastcall TForm2::Edit1Exit(TObject *Sender)
  Word codi;
  codi=StrtoInt(Edit1->Text);
  pf=new fstream(nomArch.c_str(),ios::in|ios::binary);
-
   if (pf->is_open()) {
 	do{//buscar el codigo archivo
 	  pf->read((char*)&reg,sizeof(reg));
 	  hallado=(reg.cod==codi)&&(reg.mark!='*');
 	}while(!hallado && !pf->eof());
-
 	if (hallado){ //si lo encuentra, pone los datos en pantalla
 	Edit2->Text=reg.nom;
 	Edit3->Text=reg.dir;
@@ -213,13 +228,11 @@ void __fastcall TForm2::Button2Click(TObject *Sender)
  reg.mark='0';
  cod=StrToInt(Edit1->Text);
  pf=new fstream(nomArch.c_str(),ios::in|ios::out|ios::binary);
-
   if (pf->is_open()) {
 	do{
 	  pf->read((char*)&reg,sizeof(reg));
 	  hallado=(reg.cod==cod)&&(reg.mark!='*');
 	}while(!hallado && !pf->eof());
-
 	if (hallado){
 		reg.mark='*';   //marcado como borrrado
 		pf->seekg(-sizeof(reg),ios::cur);
@@ -259,6 +272,202 @@ void __fastcall TForm2::porcodigo1Click(TObject *Sender)
 	pix.flush();
 	pix.close();
 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::Button4Click(TObject *Sender)
+{
+	RegIdxCod reg;
+	RegAlumno regA;
+	Button5->Enabled=true;
+	Button6->Enabled=true;
+	Button7->Enabled=true;
+	pf=new fstream(nomArch.c_str(),ios::in|ios::binary);
+	pIdx =new fstream(nomIdxCod.c_str(),ios::in|ios::binary);
+	if (pIdx->is_open()) {
+		pIdx->read((char*)&reg,sizeof(reg));
+		if (!pIdx->eof()) {
+		 pf->seekp(reg.pos,ios::beg);
+		 pf->read((char*)&regA,sizeof(regA));
+		 Edit1->Text=regA.cod;
+		 Edit2->Text=regA.nom;
+		 Edit3->Text=regA.dir;
+		 Edit4->Text=regA.fecha.dia;
+		 Edit5->Text=regA.fecha.mes;
+		 Edit6->Text=regA.fecha.año;
+		}
+
+	}
+
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::Button7Click(TObject *Sender)
+{
+   pf->close();
+   pIdx->close();
+   delete(pf);
+   delete(pIdx);
+   Button7->Enabled=false;
+   Button5->Enabled=false;
+   Button6->Enabled=false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::Button6Click(TObject *Sender)
+{
+ RegIdxCod reg;
+  RegAlumno regA;
+  if (pIdx->is_open()) {
+	  pIdx->read((char*)&reg,sizeof(reg));
+	  if (!pIdx->eof()) {
+		  pf->seekp(reg.pos,ios::beg);
+		  pf->read((char *)&regA,sizeof (regA));
+		  Edit1->Text=regA.cod;
+		  Edit2->Text=regA.nom;
+		  Edit3->Text=regA.dir;
+		  //MaskEdit1->Text=IntToStr(regA.fecha.dia)+"/"+IntToStr(regA.fecha.mes)+"/"+IntToStr(regA.fecha.año); 	Edit4->Text=regA.fecha.dia
+		  Edit4->Text=regA.fecha.dia;
+		  Edit5->Text=regA.fecha.mes;
+		  Edit6->Text=regA.fecha.año;
+		  Button6->Enabled=true;
+		  Button5->Enabled=true;
+	  } else {
+		 pIdx->close();
+		 delete(pIdx);
+		 pIdx=new fstream(nomIdxCod.c_str(),ios::in|ios::binary);
+		 pIdx->seekp(0,ios::end);
+		 Button6->Enabled=false;  //anulamos el avance adelante
+		 Button5->Enabled=true;//habilitamos el retroceso
+	  }
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::Button5Click(TObject *Sender)
+{
+	 RegIdxCod reg;
+  RegAlumno regA;
+  Cardinal p;
+  if (pIdx->is_open()) {
+	p=pIdx->tellp();
+	if (p<=sizeof(reg)){ //si está en el primer registro del idx
+	  Button5->Enabled=false;
+	}else {
+	  pIdx->seekp(-2*sizeof(reg),ios::cur);
+	  pIdx->read((char*)&reg,sizeof(reg));
+	  if (!pIdx->eof()) {
+		  pf->seekp(reg.pos,ios::beg);
+		  pf->read((char *)&regA,sizeof(regA));
+		  Edit1->Text=regA.cod;
+		  Edit2->Text=regA.nom;
+		  Edit3->Text=regA.dir;
+		 // MaskEdit1->Text=IntToStr(regA.fecha.dia)+"/"+IntToStr(regA.fecha.mes)+"/"+IntToStr(regA.fecha.año);
+
+		  Edit4->Text=regA.fecha.dia;
+		  Edit5->Text=regA.fecha.mes;
+		  Edit6->Text=regA.fecha.año;
+		  Button5->Enabled=true;
+		  Button6->Enabled=true;
+	  }
+	}
+  }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm2::Button8Click(TObject *Sender)
+{
+    if (openTxtDlg->Execute(this->Handle))
+	{
+		// Setting the filename and encoding selected by the user
+		String filename = openTxtDlg->FileName;
+
+		int encIndex = openTxtDlg->EncodingIndex;
+
+		TEncoding* enc = dynamic_cast<TEncoding*>
+			(openTxtDlg->Encodings->Objects[encIndex]);
+
+		// Checking if the file exists
+		if (FileExists(filename))
+		{
+			// Display the contents in a memo based on the selected encoding.
+			Memo1->Lines->LoadFromFile(filename, enc);
+		}
+		else
+		{
+			MessageDlg("File does not exist", mtError,
+				TMsgDlgButtons() << mbOK, 0);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm2::Button9Click(TObject *Sender)
+{
+    if (saveTxtDlg->Execute(this->Handle))
+	{
+		// Setting the filename and encoding selected by the user
+		String filename = saveTxtDlg->FileName;
+
+		int encIndex = saveTxtDlg->EncodingIndex;
+
+		TEncoding* enc = dynamic_cast<TEncoding*>
+			(saveTxtDlg->Encodings->Objects[encIndex]);
+
+		// Checking if the file exists
+		if (FileExists(filename))
+		{
+//			MessageDlg("File already exists", mtError,
+//				TMsgDlgButtons() << mbOK, 0);
+			Memo1->Lines->SaveToFile(filename, enc);
+		}
+		else
+		{
+			// Saves to file based on the selected encoding.
+			Memo1->Lines->SaveToFile(filename, enc);
+		}
+
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::porcodigo2Click(TObject *Sender)
+{
+	bool fin = false;
+	Cardinal p, i, pm, z;
+	if ( f.is_open()) {
+		p = 0;
+		while ( !fin ) {
+			i = 0; pm = p;
+			f.seekg(p); // ,ios::beg); // al inicio del archivo
+			while ( !f.eof() ) { // buscar el menor
+				if ( p == f.tellp() ) { // si es el primer registro
+					f.read((char *)&reg,sizeof(reg));
+					regM = reg;
+					z = f.tellp();
+				}else{
+					f.read((char *)&reg,sizeof(reg));
+					z = f.tellp();
+				}
+				if ( !f.eof() ) {
+					i ++;
+					if ( reg.cod < regM.cod ) {
+						regM = reg;
+						pm = f.tellp()-sizeof(reg);
+					}
+				}
+			}
+			fin = i <= 1;
+			if ( !fin ) {
+				//f.flush();
+				f.close();
+				f.open(nomIdxCod.c_str(),ios::in|ios::out|ios::b
+			}
+		}
+	}
 }
 //---------------------------------------------------------------------------
 

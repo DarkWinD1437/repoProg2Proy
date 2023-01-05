@@ -3,7 +3,7 @@ object Form2: TForm2
   Top = 0
   Caption = 'Form2'
   ClientHeight = 378
-  ClientWidth = 606
+  ClientWidth = 832
   Color = clCream
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -209,6 +209,84 @@ object Form2: TForm2
     TabOrder = 8
     OnKeyPress = Edit6KeyPress
   end
+  object Button4: TButton
+    Left = 648
+    Top = 14
+    Width = 75
+    Height = 25
+    Caption = 'NavegarIdx'
+    TabOrder = 9
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 600
+    Top = 54
+    Width = 75
+    Height = 25
+    Caption = '<<'
+    Enabled = False
+    TabOrder = 10
+    OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 696
+    Top = 54
+    Width = 75
+    Height = 25
+    Caption = '>>'
+    Enabled = False
+    TabOrder = 11
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 648
+    Top = 85
+    Width = 75
+    Height = 25
+    Caption = 'Fin'
+    Enabled = False
+    TabOrder = 12
+    OnClick = Button7Click
+  end
+  object Button8: TButton
+    Left = 504
+    Top = 282
+    Width = 75
+    Height = 25
+    Caption = 'Abrir'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 13
+    OnClick = Button8Click
+  end
+  object Memo1: TMemo
+    Left = 567
+    Top = 144
+    Width = 185
+    Height = 89
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 14
+  end
+  object Button9: TButton
+    Left = 600
+    Top = 280
+    Width = 75
+    Height = 25
+    Caption = 'Guaradar'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 15
+    OnClick = Button9Click
+  end
   object MainMenu1: TMainMenu
     Left = 8
     Top = 16
@@ -222,5 +300,23 @@ object Form2: TForm2
         Caption = 'por nombre'
       end
     end
+    object Ordenar1: TMenuItem
+      Caption = 'Ordenar'
+      object porcodigo2: TMenuItem
+        Caption = 'por codigo'
+        OnClick = porcodigo2Click
+      end
+      object porcodigo3: TMenuItem
+        Caption = 'por nombre'
+      end
+    end
+  end
+  object openTxtDlg: TOpenTextFileDialog
+    Left = 48
+    Top = 24
+  end
+  object saveTxtDlg: TSaveTextFileDialog
+    Left = 104
+    Top = 24
   end
 end

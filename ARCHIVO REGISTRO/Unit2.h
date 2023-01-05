@@ -9,6 +9,8 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Mask.hpp>
 #include <Vcl.Menus.hpp>
+#include <Vcl.Dialogs.hpp>
+#include <Vcl.ExtDlgs.hpp>
 #include <FStream>
 //---------------------------------------------------------------------------
 struct TFecha{
@@ -49,6 +51,18 @@ __published:	// IDE-managed Components
 	TMenuItem *Indices1;
 	TMenuItem *porcodigo1;
 	TMenuItem *pornombre1;
+	TButton *Button4;
+	TButton *Button5;
+	TButton *Button6;
+	TButton *Button7;
+	TMenuItem *Ordenar1;
+	TOpenTextFileDialog *openTxtDlg;
+	TButton *Button8;
+	TMemo *Memo1;
+	TButton *Button9;
+	TSaveTextFileDialog *saveTxtDlg;
+	TMenuItem *porcodigo2;
+	TMenuItem *porcodigo3;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall Edit1KeyPress(TObject *Sender, System::WideChar &Key);
@@ -60,8 +74,15 @@ __published:	// IDE-managed Components
 	void __fastcall Edit1Exit(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall porcodigo1Click(TObject *Sender);
+	void __fastcall Button4Click(TObject *Sender);
+	void __fastcall Button7Click(TObject *Sender);
+	void __fastcall Button6Click(TObject *Sender);
+	void __fastcall Button5Click(TObject *Sender);
+	void __fastcall Button8Click(TObject *Sender);
+	void __fastcall Button9Click(TObject *Sender);
+	void __fastcall porcodigo2Click(TObject *Sender);
 private:	// User declarations
-   fstream *pf;
+   fstream *pf,*pIdx;
    AnsiString nomArch,nomIdxCod;
 public:		// User declarations
 	__fastcall TForm2(TComponent* Owner);
