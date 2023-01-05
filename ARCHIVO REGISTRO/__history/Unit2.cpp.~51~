@@ -420,8 +420,7 @@ void __fastcall TForm2::Button8Click(TObject *Sender)
 			 n = toUppercase(regA.nom);
              strcpy(regA.nom,v.c_str());
 			 cad = toUppercase(regA.nom);    // Cambio a mayusculas
-			 strcpy(regA.nom,cad.c_str());  // cargar las mayusculas a archivo
-//			 regA.nom,cad.c_str();
+			 strcpy(regA.nom,cad);  // cargar las mayusculas a archivo
 			 o = o + n + " | \n";
 			 s = s + n + " | \n";
 			 o = o + regA.dir + " | \n";
