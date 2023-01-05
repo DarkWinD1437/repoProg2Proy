@@ -8,27 +8,10 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm2 *Form2;
-
 //---------------------------------------------------------------------------
 __fastcall TForm2::TForm2(TComponent* Owner)
 	: TForm(Owner)
 {
-	openTxtDlg = new TOpenTextFileDialog(this);
-	saveTxtDlg = new TSaveTextFileDialog(this);
-
-	// Create a new string list that holds encoding information.
-	TStrings* encodings = new TStringList();
-
-	// Add some encodings to the list.
-	encodings->AddObject("ASCII", TEncoding::ASCII);
-	encodings->AddObject("UNICODE", TEncoding::Unicode);
-	encodings->AddObject("UTF8", TEncoding::UTF8);
-
-	openTxtDlg->Encodings->Assign(encodings);
-	saveTxtDlg->Encodings->Assign(encodings);
-
-	openTxtDlg->Filter = "Text files (*.txt)|*.TXT|XML files (*.xml)|*.XML|Any file (*.*)|*.*";
-	saveTxtDlg->Filter = "Text files (*.txt)|*.TXT|XML files (*.xml)|*.XML|Any file (*.*)|*.*";
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm2::FormCreate(TObject *Sender)
@@ -42,6 +25,17 @@ void __fastcall TForm2::FormCreate(TObject *Sender)
    }
    pf->close();
    delete(pf);
+
+
+	nomArch2="AlumnosNew.dat";
+	nomIdxCod2="codiNew.idx";
+   pf2=new fstream(nomArch2.c_str(),ios::in|ios::binary);
+   if (pf2-> fail()) {
+	   delete(pf2);
+	   pf = new fstream(nomArch2.c_str(),ios::out|ios::binary);
+   }
+   pf2->close();
+   delete(pf2);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm2::FormClose(TObject *Sender, TCloseAction &Action)
@@ -79,6 +73,24 @@ void EliminarLetCad(String &x){
 		}
 	}
 }
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+char* toUppercase(char* c) {
+  if (*c == '\0') {
+	return c;
+  }
+  *c = toupper(*c);
+  toUppercase(c+1);
+  return c;
+}
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+
 
 void __fastcall TForm2::Edit1KeyPress(TObject *Sender, System::WideChar &Key)
 {
@@ -377,97 +389,65 @@ void __fastcall TForm2::Button5Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+
 void __fastcall TForm2::Button8Click(TObject *Sender)
 {
-    if (openTxtDlg->Execute(this->Handle))
-	{
-		// Setting the filename and encoding selected by the user
-		String filename = openTxtDlg->FileName;
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
-		int encIndex = openTxtDlg->EncodingIndex;
+	String s = "";
+	String o = "";
+    String n = "";
 
-		TEncoding* enc = dynamic_cast<TEncoding*>
-			(openTxtDlg->Encodings->Objects[encIndex]);
-
-		// Checking if the file exists
-		if (FileExists(filename))
-		{
-			// Display the contents in a memo based on the selected encoding.
-			Memo1->Lines->LoadFromFile(filename, enc);
-		}
-		else
-		{
-			MessageDlg("File does not exist", mtError,
-				TMsgDlgButtons() << mbOK, 0);
-		}
-	}
-}
-//---------------------------------------------------------------------------
+    RegIdxCod reg;
+	RegAlumno regA;
+    pf=new fstream(nomArch.c_str(),ios::in|ios::binary);
+	pIdx =new fstream(nomIdxCod.c_str(),ios::in|ios::binary);
 
 
-void __fastcall TForm2::Button9Click(TObject *Sender)
-{
-    if (saveTxtDlg->Execute(this->Handle))
-	{
-		// Setting the filename and encoding selected by the user
-		String filename = saveTxtDlg->FileName;
-
-		int encIndex = saveTxtDlg->EncodingIndex;
-
-		TEncoding* enc = dynamic_cast<TEncoding*>
-			(saveTxtDlg->Encodings->Objects[encIndex]);
-
-		// Checking if the file exists
-		if (FileExists(filename))
-		{
-//			MessageDlg("File already exists", mtError,
-//				TMsgDlgButtons() << mbOK, 0);
-			Memo1->Lines->SaveToFile(filename, enc);
-		}
-		else
-		{
-			// Saves to file based on the selected encoding.
-			Memo1->Lines->SaveToFile(filename, enc);
+	while (pIdx->is_open()) {
+		pIdx->read((char*)&reg,sizeof(reg));
+		if (!pIdx->eof()) {
+			pf->seekp(reg.pos,ios::beg);
+			 pf->read((char*)&regA,sizeof(regA));
+			 o = o + regA.cod + " | \n";
+			 s = s + regA.cod + " | \n";
+			 o = o + regA.nom + " | \n";
+			 n = toUppercase(regA.nom);
+			 o = o + n + " | \n";
+			 s = s + n + " | \n";
+			 o = o + regA.dir + " | \n";
+			 s = s + regA.dir + " | \n";
+			 o = o + regA.fecha.dia + " | \n";
+			 s = s + regA.fecha.dia + " | \n";
+			 o = o + regA.fecha.mes + " | \n";
+			 s = s + regA.fecha.mes + " | \n";
+			 o = o + regA.fecha.año + " | \n";
+			 s = s + regA.fecha.año + " | \n";
+			 Memo1->Lines->Add(o) + " | \n";
+			 Memo2->Lines->Add(s) + " | \n";
+	//
+		} else {
+			 pIdx->close();
+			 delete(pIdx);
 		}
 
 	}
+     pIdx->close();
+			 delete(pIdx);
+
+	pf=new fstream(nomArch.c_str(),ios::in|ios::binary);
+	pIdx=new fstream(nomIdxCod.c_str(),ios::in|ios::binary);
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm2::porcodigo2Click(TObject *Sender)
-{
-	bool fin = false;
-	Cardinal p, i, pm, z;
-	if ( f.is_open()) {
-		p = 0;
-		while ( !fin ) {
-			i = 0; pm = p;
-			f.seekg(p); // ,ios::beg); // al inicio del archivo
-			while ( !f.eof() ) { // buscar el menor
-				if ( p == f.tellp() ) { // si es el primer registro
-					f.read((char *)&reg,sizeof(reg));
-					regM = reg;
-					z = f.tellp();
-				}else{
-					f.read((char *)&reg,sizeof(reg));
-					z = f.tellp();
-				}
-				if ( !f.eof() ) {
-					i ++;
-					if ( reg.cod < regM.cod ) {
-						regM = reg;
-						pm = f.tellp()-sizeof(reg);
-					}
-				}
-			}
-			fin = i <= 1;
-			if ( !fin ) {
-				//f.flush();
-				f.close();
-				f.open(nomIdxCod.c_str(),ios::in|ios::out|ios::b
-			}
-		}
-	}
-}
-//---------------------------------------------------------------------------
 

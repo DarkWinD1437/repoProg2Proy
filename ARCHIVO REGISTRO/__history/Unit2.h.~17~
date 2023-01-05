@@ -9,8 +9,6 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Mask.hpp>
 #include <Vcl.Menus.hpp>
-#include <Vcl.Dialogs.hpp>
-#include <Vcl.ExtDlgs.hpp>
 #include <FStream>
 //---------------------------------------------------------------------------
 struct TFecha{
@@ -55,9 +53,10 @@ __published:	// IDE-managed Components
 	TButton *Button5;
 	TButton *Button6;
 	TButton *Button7;
-	TMenuItem *Ordenar1;
-	TOpenTextFileDialog *openTxtDlg;
+	TLabel *Label6;
 	TButton *Button8;
+	TMemo *Memo1;
+	TMemo *Memo2;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall Edit1KeyPress(TObject *Sender, System::WideChar &Key);

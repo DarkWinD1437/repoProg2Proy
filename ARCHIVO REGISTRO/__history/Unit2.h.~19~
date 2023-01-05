@@ -9,8 +9,6 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Mask.hpp>
 #include <Vcl.Menus.hpp>
-#include <Vcl.Dialogs.hpp>
-#include <Vcl.ExtDlgs.hpp>
 #include <FStream>
 //---------------------------------------------------------------------------
 struct TFecha{
@@ -26,6 +24,23 @@ struct RegAlumno{
 	TFecha fecha;
 };
 struct RegIdxCod{
+	Word cod;  //codigo del alumno
+	Cardinal pos; //posicion de archivos de daots de alumnos
+};
+//////////////////////////////
+struct TFecha2{
+	byte dia;
+	byte mes;
+	Word año;
+};
+struct RegAlumno2{
+	char mark; //marca de borrador
+	Word cod;
+	char nom[36];//cadena de 35 caracteres
+	char dir[36];  //cadena de 35 caracteres
+	TFecha fecha;
+};
+struct RegIdxCod2{
 	Word cod;  //codigo del alumno
 	Cardinal pos; //posicion de archivos de daots de alumnos
 };
@@ -55,12 +70,11 @@ __published:	// IDE-managed Components
 	TButton *Button5;
 	TButton *Button6;
 	TButton *Button7;
-	TMenuItem *Ordenar1;
-	TOpenTextFileDialog *openTxtDlg;
+	TLabel *Label6;
 	TButton *Button8;
 	TMemo *Memo1;
+	TMemo *Memo2;
 	TButton *Button9;
-	TSaveTextFileDialog *SaveTextFileDialog1;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall Edit1KeyPress(TObject *Sender, System::WideChar &Key);
@@ -80,6 +94,8 @@ __published:	// IDE-managed Components
 private:	// User declarations
    fstream *pf,*pIdx;
    AnsiString nomArch,nomIdxCod;
+   fstream *pf2,*pIdx2;
+   AnsiString nomArch2,nomIdxCod2;
 public:		// User declarations
 	__fastcall TForm2(TComponent* Owner);
 };

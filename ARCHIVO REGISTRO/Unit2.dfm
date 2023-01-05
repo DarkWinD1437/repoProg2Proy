@@ -2,8 +2,8 @@ object Form2: TForm2
   Left = 0
   Top = 0
   Caption = 'Form2'
-  ClientHeight = 378
-  ClientWidth = 832
+  ClientHeight = 641
+  ClientWidth = 848
   Color = clCream
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -81,9 +81,22 @@ object Form2: TForm2
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label6: TLabel
+    Left = 280
+    Top = 336
+    Width = 99
+    Height = 19
+    Caption = 'Proyecto Dia 2'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+  end
   object Button1: TButton
-    Left = 152
-    Top = 280
+    Left = 22
+    Top = 288
     Width = 99
     Height = 25
     Caption = 'Guardar'
@@ -97,8 +110,8 @@ object Form2: TForm2
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 272
-    Top = 280
+    Left = 142
+    Top = 288
     Width = 91
     Height = 25
     Caption = 'Eliminar'
@@ -112,8 +125,8 @@ object Form2: TForm2
     OnClick = Button2Click
   end
   object Button3: TButton
-    Left = 385
-    Top = 280
+    Left = 255
+    Top = 288
     Width = 90
     Height = 25
     Caption = 'Limpiar'
@@ -249,43 +262,51 @@ object Form2: TForm2
     OnClick = Button7Click
   end
   object Button8: TButton
-    Left = 504
-    Top = 282
+    Left = 142
+    Top = 377
     Width = 75
     Height = 25
-    Caption = 'Abrir'
-    Font.Charset = DEFAULT_CHARSET
+    Caption = 'Actualizar'
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
+    Font.Height = -15
+    Font.Name = 'Times New Roman'
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 13
     OnClick = Button8Click
   end
   object Memo1: TMemo
-    Left = 567
-    Top = 144
-    Width = 185
-    Height = 89
+    Left = 32
+    Top = 424
+    Width = 217
+    Height = 161
     Lines.Strings = (
       'Memo1')
     TabOrder = 14
   end
+  object Memo2: TMemo
+    Left = 392
+    Top = 424
+    Width = 217
+    Height = 161
+    Lines.Strings = (
+      'Memo2')
+    TabOrder = 15
+  end
   object Button9: TButton
-    Left = 600
-    Top = 280
+    Left = 352
+    Top = 377
     Width = 75
     Height = 25
-    Caption = 'Guaradar'
+    Caption = 'Expandir'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -11
+    Font.Height = -15
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 15
-    OnClick = Button9Click
+    TabOrder = 16
   end
   object MainMenu1: TMainMenu
     Left = 8
@@ -300,23 +321,5 @@ object Form2: TForm2
         Caption = 'por nombre'
       end
     end
-    object Ordenar1: TMenuItem
-      Caption = 'Ordenar'
-      object porcodigo2: TMenuItem
-        Caption = 'por codigo'
-        OnClick = porcodigo2Click
-      end
-      object porcodigo3: TMenuItem
-        Caption = 'por nombre'
-      end
-    end
-  end
-  object openTxtDlg: TOpenTextFileDialog
-    Left = 48
-    Top = 24
-  end
-  object saveTxtDlg: TSaveTextFileDialog
-    Left = 104
-    Top = 24
   end
 end
